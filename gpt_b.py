@@ -125,10 +125,10 @@ class Block(nn.Module):
     def __init__(self, emb_dim: int, num_heads: int, max_position_embeddings: int, dropout_rate: float):
         super().__init__()
 
-        self.attention = MultiAttentionHead(
+        self.attn = MultiAttentionHead(
             emb_dim=emb_dim, num_heads=num_heads, max_position_embeddings=max_position_embeddings, dropout_rate=dropout_rate
         )
-        self.feed_forward = FeedForward(emb_dim=emb_dim, dropout_rate=dropout_rate)
+        self.ffwd = FeedForward(emb_dim=emb_dim, dropout_rate=dropout_rate)
         self.ln1 = nn.LayerNorm(emb_dim)
         self.ln2 = nn.LayerNorm(emb_dim)
 
@@ -142,8 +142,8 @@ class Block(nn.Module):
         # but come online over time during optimization and start to contribute
         # this dramatically help with the optimization
 
-        x = self.attention(self.ln1(x)) + x
-        x = self.feed_forward(self.ln2(x)) + x
+        x = self.attn(self.ln1(x)) + x
+        x = self.ffwd(self.ln2(x)) + x
         return x
 
 
@@ -195,8 +195,12 @@ class GPTLanguageModel(nn.Module):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
 
     def forward(self, input_ids: torch.Tensor, labels: Optional[torch.Tensor] = None):
+        B, T = input_ids.shape
+
+        # B x T x emb_dim
         token_embedding = self.token_embedding_table(input_ids)
-        position_embedding = self.position_embedding_table(input_ids)
+        # T x emb_dim
+        position_embedding = self.position_embedding_table(torch.arange(T, device=input_ids.device))
         # B x T x emb_dim
         x = token_embedding + position_embedding
 
