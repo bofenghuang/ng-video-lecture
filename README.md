@@ -1,4 +1,10 @@
 
+*Copied from Github repo*
+- Link: https://github.com/karpathy/ng-video-lecture
+- Commit: `52201428ed7b46804849dea0b3ccf0de9df1a5c3`
+- Youtube video: https://www.youtube.com/watch?v=kCc8FmEb1nY&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ&index=8&ab_channel=AndrejKarpathy
+- Colab notebook: https://colab.research.google.com/drive/1JMLa53HDuA-i7ZBmqV7ZnA3c_fvtXnx-?usp=sharing
+
 # nanogpt-lecture
 
 Code created in the [Neural Networks: Zero To Hero](https://karpathy.ai/zero-to-hero.html) video lecture series, specifically on the first lecture on nanoGPT. Publishing here as a Github repo so people can easily hack it, walk through the `git log` history of it, etc.
